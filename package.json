@@ -1,0 +1,42 @@
+
+{
+  "name": "slabikar-angular22",
+  "version": "1.0.0",
+  "private": true,
+  "main": "electron/main.cjs",
+  "scripts": {
+  "start": "ng serve --open",
+  "build": "ng build",
+  "test": "ng test",
+  "electron:dev": "electron .",
+  "electron:offline": "npm run build && electron .",
+  "electron:build": "npm run build && electron-builder --win"
+},
+  "dependencies": {
+    "@angular/animations": "^22.0.0",
+    "@angular/common": "^22.0.0",
+    "@angular/compiler": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
+    "@angular/router": "^22.0.0",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.0.0",
+    "@angular/cli": "^22.0.0",
+    "@angular/compiler-cli": "^22.0.0",
+    "@types/jasmine": "~5.1.0",
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0",
+    "jasmine-core": "~5.1.0",
+    "karma": "^6.4.4",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.1",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.3.0",
+    "typescript": "~6.0.0"
+  }
+}
+

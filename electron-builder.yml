@@ -1,0 +1,23 @@
+
+appId: cz.slabikar.app
+productName: Slabikář
+
+directories:
+  output: release
+
+files:
+  - electron/**/*
+  - dist/slabikar/browser/**/*
+  - package.json
+
+asar: true
+
+win:
+  target: nsis
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  artifactName: Slabikar-Setup-${version}.${ext}
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
