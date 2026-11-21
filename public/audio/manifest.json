@@ -38,6 +38,25 @@
   "MÁME": "audio/mame.mp3",
   "SAME!": "audio/same.mp3",
   "EMA": "audio/ema.mp3",
-  "EMO": "audio/emo.mp3"
-  
+  "EMO": "audio/emo.mp3",
+  "MALÁ": "audio/mala.mp3",
+  "MELE": "audio/mele.mp3",
+  "SÁLÁ": "audio/sala.mp3",
+  "LEM": "audio/lem.mp3",
+  "MALÉ": "audio/male.mp3",
+  "MELA": "audio/mela.mp3",
+  "SELE": "audio/sele.mp3",
+  "LES": "audio/les.mp3",
+  "MÁLO": "audio/malo.mp3",
+  "MOLO": "audio/molo.mp3",
+  "SÓLO": "audio/solo.mp3",
+  "SÁL": "audio/sal.mp3",
+  "LAMA": "audio/lama.mp3",
+  "LASO": "audio/laso.mp3",
+  "LÁME": "audio/lame.mp3",
+  "LOS": "audio/los.mp3",
+  "MIMI": "audio/mimi.mp3",
+  "MILÁ": "audio/mila.mp3",
+  "MÍSA": "audio/misa.mp3",
+  "LIS": "audio/lis.mp3"
 }

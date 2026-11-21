@@ -1,0 +1,223 @@
+<div class="shell">
+  <header class="topbar">
+    <button class="brand" (click)="app.navigate('home')" aria-label="Domů">
+      📚 <span>Slabikář <small>Učíme se spolu</small></span>
+    </button>
+
+    <div class="stars" aria-label="Počet hvězdiček">⭐ {{ app.stars() }}</div>
+  </header>
+
+  <main>
+    @if (app.activity() === "home") {
+      <section class="hero">
+        <div class="hero-emoji">🦊</div>
+
+        <div>
+          <p class="eyebrow">AHOJ, MALÝ ČTENÁŘI!</p>
+          <h1>Co se dnes naučíme?</h1>
+          <p>Vyber si dobrodružství. Každý pokus se počítá!</p>
+        </div>
+      </section>
+
+      <section class="method">
+        <div>
+          <strong>Jak budeme číst?</strong>
+          <p>Metodu můžeš kdykoliv změnit.</p>
+        </div>
+
+        <div class="switch">
+          <button
+            [class.active]="app.method() === 'syllabic'"
+            (click)="changeMethod('syllabic')"
+          >
+            Po slabikách
+          </button>
+
+          <button
+            [class.active]="app.method() === 'genetic'"
+            (click)="changeMethod('genetic')"
+          >
+            Po hláskách
+          </button>
+        </div>
+      </section>
+
+      <div class="cards">
+        <button class="card pink" (click)="app.navigate('letters')">
+          <span>🔤</span>
+          <strong>Písmenka</strong>
+          <small>Poznej a vyslov písmena</small>
+          <b>Začít →</b>
+        </button>
+
+        <button class="card blue" (click)="app.navigate('syllables')">
+          <span>🧩</span>
+          <strong>Slabiky</strong>
+          <small>Spojuj písmena do slabik</small>
+          <b>Začít →</b>
+        </button>
+
+        <button class="card yellow" (click)="app.navigate('words')">
+          <span>📖</span>
+          <strong>První slova</strong>
+          <small>Slož správně celé slovo</small>
+          <b>Začít →</b>
+        </button>
+
+        <button class="card green" (click)="app.navigate('progress')">
+          <span>🏆</span>
+          <strong>Můj pokrok</strong>
+          <small>Podívej se na své úspěchy</small>
+          <b>Otevřít →</b>
+        </button>
+
+        <button class="card blue" (click)="app.navigate('problem-words')">
+          <span>🧠</span>
+          <strong>Problematická slovíčka</strong>
+          <small>Procvič si slova, která ti dělají potíže</small>
+          <b>Procvičovat →</b>
+        </button>
+      </div>
+    } @else {
+      <button class="back" (click)="app.navigate('home')">
+        ← Zpět na výběr
+      </button>
+
+      @if (app.activity() === "letters") {
+        <section class="lesson">
+          <p class="eyebrow">POZNÁVÁME PÍSMENKA</p>
+          <h1>Jaké je to písmenko?</h1>
+
+          @if (app.currentLetter(); as letter) {
+            <div class="big-letter">{{ letter.letter }}</div>
+            <div class="picture">{{ letter.emoji }}</div>
+            <h2>{{ letter.word }}</h2>
+
+            <button class="primary" (click)="app.speak(letter.letter)">
+              🔊 Přehrát písmenko
+            </button>
+
+            <button class="next" (click)="app.next()">Další písmenko →</button>
+          } @else {
+            <p>Načítám písmenka…</p>
+          }
+        </section>
+      } @else if (app.activity() === "syllables") {
+        <section class="lesson">
+          <p class="eyebrow">ČTEME SLABIKY</p>
+          <h1>Dokážeš přečíst slabiku?</h1>
+
+          <div class="big-letter syllable">
+            {{ app.currentSyllable() || "…" }}
+          </div>
+
+          <p class="helper">
+            {{
+              app.method() === "syllabic"
+                ? "Spoj obě písmena do jedné slabiky."
+                : "Vyslov jednotlivé hlásky a spoj je."
+            }}
+          </p>
+
+          <button class="primary" (click)="app.speak(app.currentSyllable())">
+            🔊 Poslechnout slabiku
+          </button>
+
+          <button class="next" (click)="app.next()">Další slabika →</button>
+        </section>
+      } @else if (app.activity() === "words") {
+        <section class="lesson">
+          <p class="eyebrow">SKLÁDÁME SLOVA</p>
+          <h1>Jak správně složíš slovo?</h1>
+
+          @if (app.currentWord(); as word) {
+            <div class="picture huge">{{ word.emoji }}</div>
+            <h2 class="word">{{ word.word }}</h2>
+
+            <p class="helper">
+              {{
+                app.method() === "syllabic"
+                  ? "Vyber správné rozdělení na slabiky."
+                  : "Vyber správné pořadí hlásek."
+              }}
+            </p>
+
+            <div class="answers">
+              @for (choice of app.options(); track choice) {
+                <button
+                  [disabled]="!!app.selected()"
+                  [class.chosen]="app.selected() === choice"
+                  [class.correct]="
+                    app.selected() === choice && choice === app.correctAnswer()
+                  "
+                  [class.wrong]="
+                    app.selected() === choice && choice !== app.correctAnswer()
+                  "
+                  (click)="app.answer(choice)"
+                >
+                  {{ choice }}
+                </button>
+              }
+            </div>
+
+            @if (app.selected()) {
+              <p class="feedback" aria-live="polite">
+                {{
+                  app.selected() === app.correctAnswer()
+                    ? "🎉 Výborně! Získáváš hvězdičku."
+                    : "💛 Nevadí! Správně je: " + app.correctAnswer()
+                }}
+              </p>
+            }
+
+            <button class="primary" (click)="app.speak(word.word)">
+              🔊 Poslechnout slovo
+            </button>
+
+            <div class="word-navigation">
+              @if (app.index() > 0) {
+                <button class="next" (click)="app.previous()">
+                  ← Předchozí slovo
+                </button>
+              }
+
+              <button class="next" (click)="app.next()">Další slovo →</button>
+            </div>
+          } @else {
+            <p>Načítám slova…</p>
+          }
+        </section>
+      } @else if (app.activity() === "progress") {
+        <section class="lesson">
+          <p class="eyebrow">MOJE ÚSPĚCHY</p>
+          <h1>Jen tak dál! 🌟</h1>
+
+          <div class="stats">
+            <div>
+              <b>{{ app.stars() }}</b>
+              <span>Hvězdiček</span>
+            </div>
+
+            <div>
+              <b>{{ app.progress().attempted }}</b>
+              <span>Odpovědí</span>
+            </div>
+
+            <div>
+              <b>{{ app.accuracy() }} %</b>
+              <span>Úspěšnost</span>
+            </div>
+          </div>
+
+          <p class="helper">Výsledky jsou uložené pouze v tomto prohlížeči.</p>
+
+          <button class="danger" (click)="reset()">Vymazat výsledky</button>
+        </section>
+      } @else if (app.activity() === "problem-words") {
+        <app-problem-words />
+      }
+    }
+  </main>
+
+  <footer>Učení vlastním tempem 💛 · Český slabikář</footer>
+</div>

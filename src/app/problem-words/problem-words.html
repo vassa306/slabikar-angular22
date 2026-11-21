@@ -1,0 +1,20 @@
+<section class="lesson">
+  <h1>Problematická slovíčka 🧠</h1>
+
+  @if (problemWords.words().length === 0) {
+    <p>Žádná problematická slovíčka.</p>
+  } @else {
+    @for (item of problemWords.words(); track item.word) {
+      <div class="word-card">
+        <h2>{{ item.word }}</h2>
+
+        <p>Chyby: {{ item.mistakes }}</p>
+        <p>Správně za sebou: {{ item.correctStreak }} / 3</p>
+
+        <button (click)="problemWords.markCorrect(item.word)">
+          Správně
+        </button>
+      </div>
+    }
+  }
+</section>

@@ -1,41 +1,33 @@
-# Slabikář – Angular 22
-
-Výuková aplikace pro první třídu: písmena, slabiky, první slova, dvě metody čtení a ukládání pokroku.
-
-## Spuštění
-
-Vyžaduje Node.js kompatibilní s Angular 22 a npm.
-
-```bash
+Slabikář – Angular 22
+Výuková aplikace pro děti v první třídě základní školy. Pomáhá procvičovat písmena, slabiky a první slova dvěma metodami čtení. Průběžně zaznamenává pokrok a umožňuje vracet se k problematickým slovíčkům.
+Funkce aplikace
+- Písmenka – poznávání písmen s obrázky a možností poslechu.
+- Slabiky – čtení a poslech slabik.
+- První slova – výběr správného rozdělení slova na slabiky nebo hlásky.
+- Dvě metody čtení – slabiková a genetická; metodu lze přepínat.
+- Navigace mezi slovy – předchozí a další slovo; na prvním slově je návrat zpět deaktivovaný.
+- Hvězdičky – za správně vyřešené slovo se hvězdička uděluje pouze jednou.
+- Můj pokrok – počet hvězdiček, odpovědí a procentuální úspěšnost.
+- Problematická slovíčka – evidence slov, ve kterých dítě chybuje, počtu chyb a série správných odpovědí (correctStreak). Po třech správných odpovědích za sebou se slovo ze seznamu odstraní. Seznam lze procvičovat také samostatně.
+- České MP3 nahrávky – přehrávání lokálních zvukových souborů bez závislosti na systémovém hlasu nebo připojení k internetu.
+Požadavky
+- Node.js ve verzi kompatibilní s Angular 22
+- npm
+Spuštění ve vývojovém režimu
 npm install
 npm start
-```
+Aplikace se otevře na adrese vypsané Angular CLI, obvykle http://localhost:4200.
+Testování a pokrytí kódu
+Projekt používá Jasmine + Karma pro unit testy a testy komponent.
+# Run tests
+npm test
 
-Otevřete adresu, kterou vypíše Angular CLI (obvykle http://localhost:4200).
+# Run tests and generate a coverage report
+npm test -- --code-coverage
+Report pokrytí kódu se obvykle vytvoří ve složce coverage/. Sledujte zejména pokrytí větví (Branches), protože služby obsahují podmínky pro chyby, správné odpovědi a odstraňování zvládnutých slov.
 
-## Technické principy
-
-- Standalone komponenta, `OnPush`, `provideZonelessChangeDetection()`
-- Signals: `signal`, `computed`
-- `HttpClient` načítá `/lessons.json`
-- RxJS `catchError` + `toSignal` pro asynchronní stav
-- Dependency injection přes `inject()`
-- Strict TypeScript a strict Angular templates
-- `localStorage` pro výsledky a volbu metody
-- Lokální české MP3 soubory v `public/audio/`, bez závislosti na hlasových balíčcích systému
-
-## Omezení první verze
-
-Výukové sady jsou zatím malé a pořadí písmen není sladěno s konkrétním školním slabikářem. Genetická metoda používá rozklad slov na písmena a slabiková metoda rozklad na slabiky. Nahrávání hlasu, vyhodnocování skutečné výslovnosti, rodičovské účty ani cloudové ukládání zatím nejsou součástí MVP. První MP3 jsou automaticky vytvořené syntetickým českým hlasem eSpeak; pro výuku hlásek doporučujeme nahradit je pedagogicky ověřenými nahrávkami. Odpovědi se ukládají jen pro cvičení První slova.
-
-## Rozšíření
-
-Výukový obsah upravíte v `public/lessons.json`; další komponenty lze vyčlenit do `features/` při rozšíření projektu.
-
-## České MP3 nahrávky
-
-Nahrávky jsou v `public/audio/` a jejich mapování v `public/audio/manifest.json`.
-Soubor lze nahradit kvalitnější nahrávkou při zachování názvu, nebo upravit cestu v manifestu.
-Tlačítka v aplikaci používají `LearningService.speak()` a přehrávají MP3 přes HTMLAudioElement.
-Zvuk se spustí až po kliknutí uživatele. Neznámý výraz se nečte anglicky.
-Pro výuku českých hlásek a slabik je nutná kontrola výslovnosti dospělým; syntetický hlas nemusí izolované hlásky vyslovit správně.
+Při testování ProblemWordsService lze pomocí Jasmine spyOn() nahradit čtení a zápis do localStorage. Samotná testovaná služba zůstává skutečná. Pro zpracování čekajících Angular efektů lze v testech použít TestBed.tick().
+Spuštění v Electronu (offline)
+Projekt obsahuje integraci s Electronem pro spuštění jako desktopová aplikace.
+npm run electron:offline
+Tento příkaz sestaví Angular aplikaci a spustí ji v Electronu z lokálních souborů. Nevytváří sám o sobě instalační .exe; zabalení do instalačního programu je samostatný krok.

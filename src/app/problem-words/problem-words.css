@@ -1,0 +1,20 @@
+.problem-words {
+  padding: 24px;
+}
+
+.word-card {
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.word-card h3 {
+  font-size: 28px;
+}
+
+.word-card button {
+  padding: 10px 16px;
+  margin-right: 8px;
+  cursor: pointer;
+}
