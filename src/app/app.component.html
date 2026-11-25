@@ -77,6 +77,13 @@
           <small>Procvič si slova, která ti dělají potíže</small>
           <b>Procvičovat →</b>
         </button>
+
+        <button class="card blue" (click)="app.navigate('audio-dictation')">
+          <span>🎧</span>
+          <strong>Zvukový diktát</strong>
+          <small>Poslechni si a napiš slovo nebo slabiku</small>
+          <b>Začít →</b>
+        </button>
       </div>
     } @else {
       <button class="back" (click)="app.navigate('home')">
@@ -215,6 +222,8 @@
         </section>
       } @else if (app.activity() === "problem-words") {
         <app-problem-words />
+      } @else if (app.activity() === "audio-dictation") {
+        <app-audio-dictation />
       }
     }
   </main>

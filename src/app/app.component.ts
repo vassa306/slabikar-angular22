@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { LearningService, ReadingMethod } from './learning.service';
+import { LearningService } from './learning.service';
+import type { ReadingMethod } from './models/lesson.model';
 import { ProblemWords } from './problem-words/problem-words';
+import { AudioDictation } from './audio-dictation/audio-dictation';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ProblemWords],
+  imports: [ProblemWords, AudioDictation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.component.html',
 })

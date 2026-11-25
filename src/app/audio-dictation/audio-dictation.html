@@ -1,0 +1,103 @@
+<section class="lesson">
+  <p class="eyebrow">ZVUKOVÝ DIKTÁT</p>
+  <h1>🎧 Co slyšíš?</h1>
+
+  <div class="switch">
+    <button
+      [class.active]="mode() === 'syllables'"
+      (click)="setMode('syllables')"
+    >
+      Slabiky
+    </button>
+
+    <button [class.active]="mode() === 'words'" (click)="setMode('words')">
+      Slova
+    </button>
+  </div>
+
+  @if (currentItem()) {
+  <p class="helper">Poslechni si nahrávku a napiš, co slyšíš.</p>
+
+  <button class="primary" type="button" (click)="playAudio()">
+    🔊 Přehrát MP3
+  </button>
+
+  <button
+    class="next"
+    type="button"
+    [disabled]="showHint() || answerResult() !== null"
+    (click)="revealHint()"
+  >
+    💡 Rada
+  </button>
+
+  @if (showHint()) {
+  <div class="hint-answer">
+    <p>Správná odpověď:</p>
+    <h2>{{ currentItem() }}</h2>
+  </div>
+  }
+
+  <label for="dictation-answer"> Napiš slabiku nebo slovo: </label>
+
+  <input
+    id="dictation-answer"
+    type="text"
+    maxlength="40"
+    [value]="typedAnswer()"
+    [disabled]="answerResult() !== null"
+    (input)="updateAnswer($any($event.target).value)"
+    (keydown.enter)="checkAnswer()"
+    placeholder="Napiš, co slyšíš..."
+    autocomplete="off"
+    spellcheck="false"
+  />
+
+  <button
+    class="primary"
+    type="button"
+    [disabled]="!typedAnswer().trim() || answerResult() !== null"
+    (click)="checkAnswer()"
+  >
+    Zkontrolovat
+  </button>
+
+  @if (answerResult() === 'correct') {
+  <p class="feedback" aria-live="polite">
+    🎉 Správně! @if (showHint()) { Odpověděl jsi s pomocí rady. } @else {
+    Výborně, zvládl jsi to samostatně! }
+  </p>
+  } @else if (answerResult() === 'incorrect') {
+  <div class="dictation-feedback incorrect" role="alert">
+    <p class="feedback-title">💛 Nesprávná odpověď</p>
+
+    <p>
+      Ty jsi napsal:
+      <strong>{{ typedAnswer() }}</strong>
+    </p>
+
+    <p>
+      Správná odpověď je:
+      <strong>{{ currentItem() }}</strong>
+    </p>
+  </div>
+  }
+
+  <div class="word-navigation">
+    <button
+      class="next"
+      type="button"
+      [disabled]="index() === 0"
+      (click)="previous()"
+    >
+      ← Předchozí
+    </button>
+
+    <button class="next" type="button" [disabled]="!hasNext()" (click)="next()">
+      Další →
+    </button>
+  </div>
+  } @else {
+  <p>Žádná úloha není k dispozici.</p>
+  }
+</section>
